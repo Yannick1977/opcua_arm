@@ -1,24 +1,43 @@
-FROM python:3 AS base
+FROM python:3.12-alpine as base
+
+WORKDIR /app
+
+#SHELL ["/bin/sh", "-o", "pipefail", "-c"]
 
 # Install dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apk update && apk add --no-cache \
     git \
-    build-essential \
+    build-base \
     bash \
     curl \
     libffi-dev \
     python3-dev \
-    libssl-dev \
+    libressl-dev \
     libxml2-dev \
     libxslt-dev \
     python3 \
-    python3-pip \
-    python3-dev \
-    python3-lxml \
-    python3-venv \
-    libyaml-dev \
-    cargo \
-    rustc
+    py3-pip \
+    py3-lxml \
+    yaml-dev \
+    rust
 
-RUN pip install asyncua
+RUN apk add gcc musl-dev python3-dev libffi-dev libressl-dev cargo
 
+RUN pip install --upgrade pip setuptools
+
+#RUN pip install cryptography
+#RUN pip install asyncua
+
+FROM base as build
+
+WORKDIR /app
+
+COPY requirements.txt requirements.txt
+
+RUN pip install -r requirements.txt
+
+COPY . /app/
+
+EXPOSE 8000
+
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
