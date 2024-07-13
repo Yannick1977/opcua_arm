@@ -28,6 +28,7 @@ RUN pip install --upgrade pip setuptools
 #RUN pip install cryptography
 #RUN pip install asyncua
 
+WORKDIR /app
 
 COPY requirements.txt requirements.txt
 

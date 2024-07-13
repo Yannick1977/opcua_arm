@@ -1,5 +1,2 @@
-pandas
-numpy
 uvicorn
 asyncua
-fastapi
