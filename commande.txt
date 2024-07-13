@@ -1,0 +1,18 @@
+// build de l'image
+docker buildx build --platform linux/arm/v7 -t ecn_ua_http --output type=docker .
+
+
+// sauvegarde image dans un fichier
+docker save --output ua_http.tar ecn_ua_http
+
+// chargemnt fichier vers la carte ECN
+docker -H 172.16.12.100 load --input ua_http.tar
+
+//commande pour demmarrer une image
+docker -H 172.16.12.100 run -d -p 1308:1308 --log-driver json-file --log-opt max-size=10m --log-opt max-file=3 --network="ecn_ecn_apps" --name ecn_ua_http_test1 ecn_ua_http
+
+// stop un container
+docker -H 172.16.12.100 stop 7b00d7d439b5
+
+// delete un container
+docker -H 172.16.12.100 rm 7b00d7d439b5
