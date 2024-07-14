@@ -25,9 +25,16 @@ RUN apk add gcc musl-dev python3-dev libffi-dev libressl-dev cargo
 
 RUN pip install --upgrade pip setuptools
 
-#RUN pip install cryptography
-RUN pip install asyncua
 
+# Create virtual environment
+RUN python3 -m venv /venv
+
+# Activate virtual environment
+ENV PATH="/venv/bin:$PATH"
+
+# Install dependencies
+RUN pip install asyncua
+#RUN pip install cryptography
 # WORKDIR /app
 
 # COPY requirements.txt requirements.txt
