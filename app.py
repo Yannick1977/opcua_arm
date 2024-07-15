@@ -5,7 +5,8 @@ import asyncio
 
 app = FastAPI()
 
-url = "opc.tcp://localhost:4840/freeopcua/server/"
+# url = "opc.tcp://localhost:4840/freeopcua/server/"
+url = "opc.tcp://mx80_ua:4840"
 namespace = "http://examples.freeopcua.github.io"
 
 @app.get("/")
