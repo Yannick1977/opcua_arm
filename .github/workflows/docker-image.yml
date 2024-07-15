@@ -27,5 +27,5 @@ jobs:
           context: .  # Chemin du contexte de build (généralement le répertoire racine du projet)
           file: Dockerfile  # Spécifie le nom du Dockerfile
           push: true  # Active le push de l'image vers un registre
-          tags: yannickbodin/ecn_ua_base_env:latest  # Remplacez "yourusername" par votre nom d'utilisateur Docker Hub
-          platforms: linux/arm/v7  # Spécifie la plateforme cible pour le build
+          tags: yannickbodin/ecn_ua_base_env_fastapi:latest  # Remplacez "yourusername" par votre nom d'utilisateur Docker Hub
+          platforms: linux/amd64, linux/arm64, linux/arm/v7  # Spécifie la plateforme cible pour le build
