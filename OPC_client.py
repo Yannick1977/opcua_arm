@@ -5,7 +5,8 @@ import asyncio
 from asyncua import Client
 
 #url = "opc.tcp://172.16.12.1:4840/"
-url = "opc.tcp://localhost:4840/freeopcua/server/"
+#url = "opc.tcp://localhost:4840/freeopcua/server/"
+url = "opc.tcp://mx80_ua:4840"
 
 namespace = "http://examples.freeopcua.github.io"
 
@@ -84,8 +85,8 @@ class OPCClient_UA():
 async def main():
     opc_client = OPCClient_UA(url, namespace)
     await opc_client.connect()
-    #print(await opc_client.get_ListVar())
-    print(await opc_client.read_value('MyVariable'))
+    print(await opc_client.get_ListVar())
+    #print(await opc_client.read_value('MyVariable'))
     await opc_client.disconnect()
     print('done')
 

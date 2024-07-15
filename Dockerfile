@@ -1,30 +1,7 @@
-FROM python:3.12-alpine as base
+FROM yannickbodin/ecn_ua_base_env:latest
 
-WORKDIR /app
-
-#SHELL ["/bin/sh", "-o", "pipefail", "-c"]
-
-# Install dependencies
-RUN apk update && apk add --no-cache \
-    git \
-    build-base \
-    bash \
-    curl \
-    libffi-dev \
-    python3-dev \
-    libressl-dev \
-    libxml2-dev \
-    libxslt-dev \
-    python3 \
-    py3-pip \
-    py3-lxml \
-    yaml-dev \
-    rust
-
-RUN apk add gcc musl-dev python3-dev libffi-dev libressl-dev cargo
-
-RUN pip install --upgrade pip setuptools
-
+# Install dependencie
+COPY requirements.txt requirements.txt
 
 # Create virtual environment
 RUN python3 -m venv /venv
@@ -33,16 +10,15 @@ RUN python3 -m venv /venv
 ENV PATH="/venv/bin:$PATH"
 
 # Install dependencies
-RUN pip install asyncua
-#RUN pip install cryptography
-# WORKDIR /app
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 
-# COPY requirements.txt requirements.txt
+# Copy the rest of your application
+COPY . /app/
 
-# RUN pip install -r requirements.txt
+# Expose the port your app runs on
+EXPOSE 1308
 
-# COPY . /app/
-
-# EXPOSE 1308
-
-# CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "1308"]
+# Command to run your application
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "1308"]
+#CMD ["python3", "./app.py"]

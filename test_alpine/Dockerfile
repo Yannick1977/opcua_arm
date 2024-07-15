@@ -1,27 +1,24 @@
-FROM arm32v7/python:3-slim AS compile-image
+FROM yannickbodin/ecn_ua_base_env:latest
 
-WORKDIR /app
-
+# Install dependencie
 COPY requirements.txt requirements.txt
 
-RUN pip install --upgrade pip setuptools
+# Create virtual environment
+RUN python3 -m venv /venv
 
-RUN apt-get update &&\
-    apt-get -y install gcc libffi-dev libssl-dev libuv1-dev libxslt-dev libz-dev &&\
-    rm -rf /var/lib/apt/lists/*
+# Activate virtual environment
+ENV PATH="/venv/bin:$PATH"
 
-RUN pip install --user -r requirements.txt
+# Install dependencies
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 
+# Copy the rest of your application
+COPY . /app/
 
-FROM arm32v7/python:3-slim AS build-image
+# Expose the port your app runs on
+EXPOSE 1308
 
-RUN apt-get update -y &&\
-    apt-get install -y libxml2-dev libxslt-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY --from=compile-image /root/.local /root/.local
-COPY . /root/.local/
-
-ENV PATH=/root/.local/bin:$PATH
-
-CMD ["python3", "/root/.local/app.py"]
+# Command to run your application
+#CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "1308"]
+CMD ["python3", "./app.py"]
