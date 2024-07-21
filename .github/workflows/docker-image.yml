@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main  # Déclencheur sur push dans la branche main
+      - dev  # Déclencheur sur push dans la branche main
 
 jobs:
   build-and-push:
