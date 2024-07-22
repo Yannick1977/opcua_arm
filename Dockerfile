@@ -1,4 +1,4 @@
-FROM yannickbodin/ecn_ua_base_env:1.0
+FROM yannickbodin/ecn_ua_base_env:1.0 as build_image
 
 # Install dependencie
 COPY requirements.txt requirements.txt
@@ -12,6 +12,9 @@ ENV PATH="/venv/bin:$PATH"
 # Install dependencies
 RUN pip install -r requirements.txt
 
+
+# Start from a base image
+FROM build_image as final_image 
 # Copy the rest of your application
 COPY . /app/
 

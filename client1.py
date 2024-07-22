@@ -8,7 +8,7 @@ import json
 
 #url = "opc.tcp://127.0.0.1:4840/"
 
-url = "opc.tcp://172.16.12.1:4840/"
+url = "opc.tcp://mx80_ua:4840/"
 
 class OPCUA_Client():
     def __init__(self, url):
